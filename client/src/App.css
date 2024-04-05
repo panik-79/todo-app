@@ -1,0 +1,133 @@
+/* Container styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Sidebar styles */
+.sidebar {
+  width: 200px;
+  padding: 20px;
+  background-color: #f0f0f0;
+  height: 100%; /* Ensure sidebar fills the full height */
+}
+
+.sidebar h2 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  text-align: center; /* Center the heading */
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  cursor: pointer;
+  padding: 10px 0;
+}
+
+.sidebar li.active {
+  font-weight: bold;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the content horizontally */
+  width: calc(100% - 200px); /* Subtract sidebar width */
+  max-width: calc(100vw - 200px); /* Ensure main content doesn't overflow */
+  overflow-x: hidden; /* Hide horizontal overflow */
+}
+
+
+
+.header {
+  padding: 20px;
+  background-color: #f0f0f0;
+  margin-bottom: 20px;
+  text-align: center; /* Center the heading */
+  width: 100%;
+}
+
+.header h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.task-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the cards horizontally */
+  gap: 20px; /* Add gap between cards */
+}
+
+/* Card styles */
+.card-wrapper {
+  margin: 10px;
+  padding: 15px;
+  background-color: #4f1d1d;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.card-wrapper:hover {
+  transform: translateY(-7px);
+  transition: transform 0.3s ease;
+}
+
+.card-wrapper:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.card-top {
+  height: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.task-holder {
+  padding: 15px 0;
+}
+
+.card-header {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.card-description {
+  margin-bottom: 15px;
+}
+
+.card-actions-left i {
+  margin-right: 2px;
+}
+
+.card-actions-right {
+  display: flex;
+  justify-content: flex-end; /* Shift the button to the right */
+}
+
+.card-actions-right button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  margin-left: 2px;
+}
+
+
