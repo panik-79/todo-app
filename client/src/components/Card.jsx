@@ -1,7 +1,9 @@
+// Card.jsx
 import React, { useState } from 'react';
 import EditTask from '../modals/EditTask';
+import axios from 'axios';
 
-const Card = ({ taskObj, index, deleteTask, updateTask, markAsCompleted, isInCompletedSection }) => {
+const Card = ({ taskObj, index, deleteTask, markAsCompleted, updateTask, isInCompletedSection }) => {
     const [modal, setModal] = useState(false);
 
     const colors = [
@@ -24,6 +26,10 @@ const Card = ({ taskObj, index, deleteTask, updateTask, markAsCompleted, isInCom
         markAsCompleted(taskObj._id);
     };
 
+    const handleUpdateTask = (updatedTask) => {
+        updateTask(updatedTask);
+    };
+
     return (
         <div className="card-wrapper" style={{ backgroundColor: colors[index % 5]?.secondaryColor }}>
             <div className="card-top" style={{ backgroundColor: colors[index % 5]?.primaryColor }}></div>
@@ -32,17 +38,17 @@ const Card = ({ taskObj, index, deleteTask, updateTask, markAsCompleted, isInCom
                 <p className="mt-3">{taskObj?.description}</p>
                 {isInCompletedSection ? (
                     <div className="card-actions">
-
+                        <i className="fas fa-trash-alt" style={{ color: colors[index % 5]?.primaryColor, cursor: "pointer" }} onClick={handleDelete}></i>
                     </div>
                 ) : (
                     <div className="card-actions" style={{ display: "flex", alignItems: "center" }}>
-                        <i className="far fa-edit mr-3" style={{ color: colors[index % 5]?.primaryColor, cursor: "pointer", marginRight: "10px" }} onClick={toggle}></i>
+                        <i className="far fa-edit mr-3" style={{ color: colors[index % 5]?.primaryColor, cursor: "pointer", marginRight: "10px" }} onClick={() => setModal(true)}></i>
                         <i className="fas fa-trash-alt" style={{ color: colors[index % 5]?.primaryColor, cursor: "pointer" }} onClick={handleDelete}></i>
                         <button className="btn btn-success ml-3" onClick={handleMarkAsCompleted} style={{ marginLeft: "20px" }}>Mark as completed</button>
                     </div>
                 )}
             </div>
-            <EditTask modal={modal} toggle={toggle} updateTask={updateTask} taskObj={taskObj} />
+            <EditTask modal={modal} toggle={toggle} updateTask={handleUpdateTask} taskObj={taskObj} />
         </div>
     );
 };

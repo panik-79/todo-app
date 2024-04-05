@@ -6,7 +6,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function App() {
   return (
-    <div className="App" style={{width : "120%"}}>
+    <div className="App" style={{width : "110%"}}>
       <TodoList />
     </div>
   );

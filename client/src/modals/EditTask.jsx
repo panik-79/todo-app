@@ -35,6 +35,7 @@ const EditTaskPopup = ({ modal, toggle, updateTask, taskObj }) => {
             description: description
         };
         updateTask(updatedTask);
+        toggle();
     };
     
 

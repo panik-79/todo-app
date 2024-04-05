@@ -40,3 +40,13 @@ exports.updateToDo = async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 };
+
+exports.markToDoAsCompleted = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const updatedToDo = await ToDoModel.findByIdAndUpdate(id, { completed: true }, { new: true });
+        res.json(updatedToDo);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+};

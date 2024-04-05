@@ -1,3 +1,4 @@
+// TodoList.jsx
 import React, { useEffect, useState } from 'react';
 import CreateTask from '../modals/CreateTask';
 import Card from './Card';
@@ -10,14 +11,21 @@ const TodoList = () => {
     const [completedTasks, setCompletedTasks] = useState([]);
     const [activeSection, setActiveSection] = useState('pending');
 
-    // Fetching to-do data from MongoDB when the component mounts
-    useEffect(() => {
+    // Function to fetch both pending and completed tasks
+    const fetchTasks = () => {
         axios.get(`${base_url}/get`)
             .then(response => {
-                setTaskList(response.data);
+                const tasks = response.data;
+                setTaskList(tasks.filter(task => !task.completed));
+                setCompletedTasks(tasks.filter(task => task.completed));
             })
             .catch(error => console.error('Error fetching tasks: ', error));
-    }, []);
+    };
+
+    // Fetch tasks when the component mounts or when active section changes
+    useEffect(() => {
+        fetchTasks();
+    }, [activeSection]);
 
     // Function to add a new task
     const saveTask = (taskObj) => {
@@ -40,6 +48,7 @@ const TodoList = () => {
         axios.delete(`${base_url}/delete/${id}`)
             .then(() => {
                 setTaskList(prevList => prevList.filter(task => task._id !== id));
+                setCompletedTasks(prevTasks => prevTasks.filter(task => task._id !== id));
             })
             .catch(error => console.error('Error deleting task: ', error));
     };
@@ -48,8 +57,11 @@ const TodoList = () => {
     const markAsCompleted = (id) => {
         const completedTask = taskList.find(task => task._id === id);
         if (completedTask) {
-            deleteTask(id);
-            setCompletedTasks(prevTasks => [...prevTasks, completedTask]);
+            axios.put(`${base_url}/complete/${id}`)
+                .then(() => {
+                    fetchTasks(); // Fetch tasks again to update lists
+                })
+                .catch(error => console.error('Error marking task as completed: ', error));
         }
     };
 
@@ -58,12 +70,7 @@ const TodoList = () => {
         const { _id, ...rest } = updatedTask;
         axios.put(`${base_url}/update/${_id}`, rest)
             .then(() => {
-                setTaskList(prevList => prevList.map(task => {
-                    if (task._id === _id) {
-                        return { ...task, ...rest };
-                    }
-                    return task;
-                }));
+                fetchTasks(); // Fetch tasks again to update lists
             })
             .catch(error => console.error('Error updating task: ', error));
     };
